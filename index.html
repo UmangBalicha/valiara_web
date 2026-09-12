@@ -1,306 +1,922 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no">
-<meta name="color-scheme" content="light only">
-<meta name="supported-color-schemes" content="light only">
-<title>Valiara - Finance Club of IIIT Sri City</title>
-<!--[if mso]>
-<noscript>
-<xml>
-<o:OfficeDocumentSettings>
-<o:PixelsPerInch>96</o:PixelsPerInch>
-</o:OfficeDocumentSettings>
-</xml>
-</noscript>
-<![endif]-->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style type="text/css">
-  /* Reset */
-  * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-  body { margin: 0 !important; padding: 0 !important; width: 100% !important; }
-  img { max-width: 100%; display: block; height: auto; border: 0; line-height: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
-  table { border-collapse: collapse !important; }
-  a { text-decoration: none; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valiara — Finance Club of IIIT Sri City</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Newspaper Palette */
+      --paper: #f0ebe1;
+      --paper-dim: #e4decb;
+      --ink: #111111;
+      --ink-light: #333333;
+      --profit: #2a5a3b;
+      --highlight: #b8863b;
+      --accent-rust: #8b3a3a;
+      
+      --border-thin: 1px solid var(--ink);
+      --border-thick: 3px solid var(--ink);
+      
+      --font-sans: 'IBM Plex Sans', Helvetica, Arial, sans-serif;
+      --font-serif: 'Fraunces', Georgia, serif;
+      --font-mono: 'IBM Plex Mono', Courier, monospace;
+    }
 
-  /* LOCK OUT AUTO-DARK-MODE / AUTO-RECOLOR ENGINES
-     iOS Mail, Outlook.com, Windows Mail and some Android clients will
-     repaint colors automatically unless explicitly told not to. These
-     rules force every client to leave our inline colors alone. */
-  [data-ogsc], [data-ogsb], [data-ogac], [data-ogab] { background-color: inherit !important; color: inherit !important; }
-  u + .body .glow-fix { color: inherit !important; }
-  @media (prefers-color-scheme: dark), (prefers-color-scheme: light) {
-    .tan-bg   { background-color: #F4EFE6 !important; }
-    .dark-bg  { background-color: #0B1B2B !important; }
-    .green-bg { background-color: #1B4332 !important; }
-    .gold-bg  { background-color: #B8863B !important; }
-    .text-dark  { color: #0B1B2B !important; }
-    .text-light { color: #F4EFE6 !important; }
-    .text-gold  { color: #B8863B !important; }
-    .text-rust  { color: #7A2E2E !important; }
-    .text-green { color: #1B4332 !important; }
-    .text-gray  { color: #555f67 !important; }
-    .text-mute  { color: #baBAB7 !important; }
-    .text-mute2 { color: #cac8c4 !important; }
-    .text-mute3 { color: #b2b3b0 !important; }
-    .text-sep   { color: #577364 !important; }
-    .text-footer{ color: #737a7b !important; }
-  }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* Mobile responsiveness (layout only - never touches color) */
-  @media only screen and (max-width: 600px) {
-    .wrap-pad { width: 16px !important; min-width: 16px !important; }
-    .hero-title { font-size: 34px !important; line-height: 1.12 !important; }
-    .section-title { font-size: 26px !important; }
-    .stack-column { display: block !important; width: 100% !important; border-right: none !important; border-left: none !important; box-sizing: border-box !important; }
-    .market-ticker-text { font-size: 12.5px !important; line-height: 1.9 !important; }
-  }
-</style>
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .ledger-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      border-left: var(--border-thick);
+      border-right: var(--border-thick);
+      background: var(--paper);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 700; color: var(--ink); }
+    .mono { font-family: var(--font-mono); text-transform: uppercase; }
+    a { color: inherit; text-decoration: none; }
+
+    /* =========================================
+       HEADER & TICKER
+       ========================================= */
+    .top-header {
+      display: flex;
+      align-items: stretch;
+      border-bottom: var(--border-thick);
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 32px;
+      border-right: 3px solid var(--paper);
+      white-space: nowrap;
+    }
+
+    .brand-block img {
+      width: 48px;
+      height: 48px;
+      background: var(--paper);
+      padding: 2px;
+    }
+
+    .brand-text { display: flex; flex-direction: column; justify-content: center; }
+    .brand-text h1 { color: var(--paper); font-size: 26px; line-height: 1; letter-spacing: 0.02em; }
+    .brand-text p { font-family: var(--font-mono); font-size: 11px; color: var(--highlight); margin-top: 6px; }
+
+    .live-ticker {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      background: var(--ink);
+    }
+
+    .marquee {
+      animation: scrollLeft 25s linear infinite;
+      display: flex;
+    }
+    .marquee > div {
+      display: flex;
+      padding-right: 32px; 
+    }
+    .marquee span { display: inline-flex; align-items: center; gap: 8px; margin-right: 32px; color: var(--paper); }
+    .t-up { color: #5bc57a; } 
+    .t-alert { color: var(--highlight); animation: blink 1s step-end infinite; }
+
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+    /* =========================================
+       HERO & GRAPH GRID
+       ========================================= */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 42% 58%;
+      border-bottom: var(--border-thick);
+    }
+
+    .hero-text-block {
+      padding: 60px 40px;
+      border-right: var(--border-thick);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-text-block h2 {
+      font-size: clamp(36px, 4.5vw, 68px);
+      line-height: 1.05;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-text-block p {
+      font-size: 17px;
+      color: var(--ink-light);
+      max-width: 95%;
+      margin-bottom: 32px;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .action-badge {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      border: var(--border-thin);
+      padding: 8px 16px;
+      background: var(--ink);
+      color: var(--paper);
+      text-transform: uppercase;
+    }
+
+    .chart-container {
+      position: relative;
+      background: var(--paper-dim);
+      min-height: 420px;
+    }
+
+    .chart-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 36px; 
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 0 20px;
+      border-bottom: var(--border-thin);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(228, 222, 203, 0.95);
+      backdrop-filter: blur(4px);
+      z-index: 10;
+    }
+
+    .canvas-wrapper {
+      position: absolute;
+      top: 36px; 
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      cursor: crosshair; 
+    }
+
+    /* =========================================
+       DOMAINS / MARKET WATCHLIST
+       ========================================= */
+    .section-header {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 16px 32px;
+      border-bottom: var(--border-thick);
+      background: var(--paper-dim);
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-light);
+      padding: 12px 32px;
+      border-bottom: var(--border-thin);
+      background: #f8f5f0;
+      text-transform: uppercase;
+    }
+    
+    .data-table th:last-child {
+      text-align: right;
+    }
+
+    .data-table tr {
+      border-bottom: var(--border-thin);
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .data-table tr:hover { background-color: var(--ink); color: var(--paper); }
+    .data-table tr:hover .sub-text { color: #A8A39B; }
+    .data-table tr:hover .sym { color: var(--highlight); border-color: var(--ink-light); }
+    .data-table tr:hover .d-focus { border-color: var(--ink-light); }
+    .data-table tr:hover .metric { color: #5bc57a; }
+
+    .data-table td { padding: 24px 32px; vertical-align: top; }
+
+    .sym {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 700;
+      width: 10%;
+      border-right: var(--border-thin);
+      transition: border-color 0.15s ease;
+      vertical-align: middle !important;
+    }
+
+    .d-name { font-size: 22px; font-weight: 700; font-family: var(--font-serif); margin-bottom: 6px; width: 35%;}
+    .sub-text { font-size: 15px; color: var(--ink-light); transition: color 0.15s ease; }
+    
+    .d-focus { width: 40%; font-family: var(--font-mono); font-size: 14px; line-height: 1.6; border-left: var(--border-thin); transition: border-color 0.15s ease; }
+    .d-focus ul { list-style: none; margin-top: 8px; }
+    .d-focus li { display: flex; align-items: flex-start; }
+    .d-focus li::before { content: '>'; color: var(--accent-rust); margin-right: 8px; font-weight: bold;}
+
+    .metric {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--profit);
+      text-align: right;
+      width: 15%;
+      vertical-align: middle !important;
+    }
+
+    /* =========================================
+       OPERATIONS & EVENTS (2-COLUMN GRID)
+       ========================================= */
+    .ops-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: var(--border-thick);
+    }
+
+    .ops-col {
+      border-right: var(--border-thick);
+      display: flex;
+      flex-direction: column;
+    }
+    .ops-col:last-child { border-right: none; }
+
+    .col-title {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      padding: 20px 32px;
+      border-bottom: var(--border-thick);
+      background: var(--paper-dim);
+      color: var(--ink);
+    }
+
+    .dense-list {
+      list-style: none;
+      flex-grow: 1;
+    }
+
+    .dense-list li {
+      padding: 20px 32px;
+      border-bottom: var(--border-thin);
+      font-size: 16px;
+      font-weight: 500;
+      display: flex;
+      align-items: flex-start;
+      line-height: 1.5;
+    }
+    .dense-list li:last-child { border-bottom: none; }
+
+    .dense-list li::before {
+      content: '■';
+      color: var(--accent-rust);
+      margin-right: 14px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .list-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .date-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--highlight);
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    /* =========================================
+       RECRUITMENT CTA
+       ========================================= */
+    .cta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      border-bottom: var(--border-thick);
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .cta-info {
+      padding: 40px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .cta-info h2 { color: var(--paper); font-size: 36px; margin-bottom: 12px; text-transform: uppercase;}
+    .cta-info p { font-family: var(--font-mono); font-size: 15px; color: var(--highlight); text-transform: uppercase; }
+
+    .btn-apply {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 80px;
+      background: var(--profit);
+      color: var(--paper);
+      font-family: var(--font-mono);
+      font-size: 26px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-left: var(--border-thick);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-apply:hover { background: var(--paper); color: var(--profit); }
+
+    /* =========================================
+       FOOTER
+       ========================================= */
+    footer {
+      padding: 24px 32px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--ink);
+      background: var(--paper-dim);
+      margin-top: auto;
+    }
+
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-text-block { border-right: none; border-bottom: var(--border-thick); padding: 48px 32px; }
+      .chart-container { height: 400px; }
+      .ops-grid { grid-template-columns: 1fr; }
+      .ops-col { border-right: none; border-bottom: var(--border-thick); }
+      .ops-col:last-child { border-bottom: none; }
+      .d-focus { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .top-header { flex-direction: column; align-items: stretch; }
+      .brand-block { border-right: none; border-bottom: 1px solid var(--paper); justify-content: center; padding: 24px; }
+      .live-ticker { padding: 16px 0; }
+      .data-table th { display: none; }
+      .data-table td { display: block; width: 100%; padding: 24px; text-align: left; }
+      .sym { border-right: none; border-bottom: var(--border-thin); background: rgba(0,0,0,0.03); width: 100%; }
+      .metric { border-left: none; border-top: var(--border-thin); text-align: left; width: 100%; }
+      .d-name { width: 100%; }
+      .cta-bar { flex-direction: column; }
+      .btn-apply { padding: 32px; border-left: none; border-top: 3px solid var(--paper); }
+      footer { flex-direction: column; text-align: center; gap: 12px; }
+    }
+  </style>
 </head>
-<body class="tan-bg body" bgcolor="#F4EFE6" style="background-color: #F4EFE6; color: #0B1B2B; font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
-<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">Applications close Tuesday, September 15, 2026 - apply to Valiara, the Finance Club of IIIT Sri City.&#8203;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</div>
+<body>
 
-  <!-- HERO SECTION -->
-  <table class="dark-bg" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#0B1B2B" style="background-color: #0B1B2B; color: #F4EFE6;">
-    <tr>
-      <td align="center" style="padding: 28px 0 56px 0;">
-        <table width="100%" border="0" cellpadding="0" cellspacing="0" style="max-width: 760px;">
+  <div class="ledger-container">
+    
+    <header class="top-header">
+      <div class="brand-block">
+        <img src="https://github.com/user-attachments/assets/9aea69f2-dd7b-41f8-89c9-ab757e1cad3f" alt="Valiara Logo">
+        <div class="brand-text">
+          <h1>VALIARA</h1>
+          <p>BORN A LIABILITY, DESTINED TO YIELD</p>
+        </div>
+      </div>
+      
+      <div class="live-ticker">
+        <div class="marquee">
+          <div>
+            <span class="t-alert">RECRUITMENTS OPEN</span>
+            <span>MARKET INDICES:</span>
+            <span>FSA <b class="t-up">▲ 4.82%</b></span>
+            <span>CORP FIN <b class="t-up">▲ 2.17%</b></span>
+            <span>IWM <b class="t-up">▲ 0.94%</b></span>
+            <span>FPA <b class="t-up">▲ 6.31%</b></span>
+            <span>PRD <b class="t-up">▲ 1.45%</b></span>
+          </div>
+          <div>
+            <span class="t-alert">RECRUITMENTS OPEN</span>
+            <span>MARKET INDICES:</span>
+            <span>FSA <b class="t-up">▲ 4.82%</b></span>
+            <span>CORP FIN <b class="t-up">▲ 2.17%</b></span>
+            <span>IWM <b class="t-up">▲ 0.94%</b></span>
+            <span>FPA <b class="t-up">▲ 6.31%</b></span>
+            <span>PRD <b class="t-up">▲ 1.45%</b></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero-grid">
+      <div class="hero-text-block">
+        <h2>Finance.<br>But actually doing it.</h2>
+        <p>This isn't a listening club. We build models, analyze real statements, and execute high-pressure strategies. This is where markets meet execution at IIIT Sri City.</p>
+        <div class="action-row">
+          <span class="action-badge">RESEARCH</span>
+          <span class="action-badge">TRADE</span>
+          <span class="action-badge">BUILD</span>
+          <span class="action-badge">COMPETE</span>
+        </div>
+      </div>
+      
+      <div class="chart-container">
+        <div class="chart-header">
+          <span>VAL_IDX // LIVE VOLATILITY</span>
+          <span>MA(20): 1254.20 // MARKET OPEN <span id="statusIndicator">🟢</span> <span id="statusText" style="margin-left: 4px;">+0.00%</span></span>
+        </div>
+        <div class="canvas-wrapper" id="canvasWrap">
+          <canvas id="marketCanvas"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="watchlist-section">
+      <div class="section-header">
+        <span>01 // CLUB DOMAINS</span>
+        <span>YTD METRICS</span>
+      </div>
+      
+      <table class="data-table">
+        <thead>
           <tr>
-            <td class="wrap-pad" width="24" style="width: 24px; min-width: 24px; line-height: 1px; font-size: 1px;">&nbsp;</td>
-            <td align="left">
-        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <th>SYM</th>
+            <th>SECTOR & OBJECTIVE</th>
+            <th>CURRENT FOCUS AREAS</th>
+            <th>IDX</th>
+          </tr>
+        </thead>
+        <tbody>
           <tr>
-            <td align="left">
-
-              <!-- Logo Row -->
-              <table border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
-                <tr>
-                  <td width="52" valign="middle">
-                    <img src="https://github.com/user-attachments/assets/9aea69f2-dd7b-41f8-89c9-ab757e1cad3f" alt="Valiara" width="52" height="52" style="width: 52px; height: 52px; border-radius: 10px; display: block; background-color: #F4EFE6;">
-                  </td>
-                  <td valign="middle" style="padding-left: 14px; font-family: 'IBM Plex Mono', Courier, monospace; font-size: 12px; letter-spacing: 0.06em; color: #baBAB7;">
-                    VALIARA<br>
-                    <span class="text-gold" style="font-family: 'Fraunces', Georgia, serif; font-size: 16px; font-style: italic; color: #B8863B; letter-spacing: 0;">"Born a liability, destined to yield"</span>
-                  </td>
-                </tr>
-              </table>
-
-              <!-- Ticker -->
-              <div class="text-gold" style="font-family: 'IBM Plex Mono', Courier, monospace; font-size: 12px; letter-spacing: 0.03em; color: #B8863B; border-bottom: 1px solid #3C4A57; padding-bottom: 18px; margin-bottom: 36px; text-align: left;">
-                VALIARA - FINANCE CLUB &middot; IIIT SRI CITY &nbsp;&nbsp;&nbsp;&nbsp; RECRUITMENTS OPEN
-              </div>
-
-              <!-- Heading -->
-              <div class="hero-title text-light" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 52px; line-height: 1.05; letter-spacing: -0.01em; margin: 0; padding: 0; color: #F4EFE6;">Where finance meets opportunity.</div>
-              <div class="text-light" style="padding-top: 28px; font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 19px; color: #F4EFE6; line-height: 1.5; max-width: 500px; margin: 0;">Ever wondered how companies are valued? How investors make decisions? How markets actually work?</div>
-              <div class="text-mute2" style="padding-top: 22px; font-size: 17px; color: #cac8c4; max-width: 500px; line-height: 1.55; margin: 0;">This is your chance to find out - not from a textbook, but by doing, analysing, and building alongside people who are just as curious as you are.</div>
-
-              <!-- Secondary CTA under hero copy for extra recruitment push -->
-              <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 30px;">
-                <tr>
-                  <td align="center" class="gold-bg" bgcolor="#B8863B" style="background-color: #B8863B;">
-                    <a href="https://forms.gle/CaiqPAvCK3zJeZNu7" target="_blank" class="text-dark" style="display: inline-block; padding: 15px 30px; font-weight: 600; font-size: 15px; color: #0B1B2B; text-decoration: none; letter-spacing: 0.01em;">Apply to Valiara &rarr;</a>
-                  </td>
-                  <td valign="middle" style="padding-left: 20px; font-family: 'IBM Plex Mono', Courier, monospace; font-size: 13px; color: #baBAB7;" class="text-mute">
-                    APPLY BY <b class="text-light" style="color: #F4EFE6;">TUESDAY, SEP 15, 2026</b>
-                  </td>
-                </tr>
-              </table>
-
+            <td class="sym">FSA</td>
+            <td class="d-name">
+              Financial Statement Analysis
+              <div class="sub-text">Evaluate business performance and dissect corporate earnings.</div>
             </td>
-          </tr>
-        </table>
+            <td class="d-focus">
+              <strong>Active Protocols:</strong>
+              <ul>
+                <li><span>Fundamental Valuation Modeling</span></li>
+                <li><span>Quarterly Earnings Teardowns</span></li>
+              </ul>
             </td>
-            <td class="wrap-pad" width="24" style="width: 24px; min-width: 24px; line-height: 1px; font-size: 1px;">&nbsp;</td>
+            <td class="metric">▲ 4.82%</td>
           </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-
-  <!-- MAIN CONTENT -->
-  <table class="tan-bg" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#F4EFE6" style="background-color: #F4EFE6;">
-    <tr>
-      <td align="center" style="padding: 56px 0;">
-        <table width="100%" border="0" cellpadding="0" cellspacing="0" style="max-width: 760px;">
           <tr>
-            <td class="wrap-pad" width="24" style="width: 24px; min-width: 24px; line-height: 1px; font-size: 1px;">&nbsp;</td>
-            <td align="left">
-
-              <!-- 01 DOMAINS -->
-              <div class="text-rust" style="font-family: 'IBM Plex Mono', Courier, monospace; font-size: 12px; letter-spacing: 0.02em; padding-bottom: 10px; margin: 0; color: #7A2E2E;">01 - DOMAINS</div>
-              <div class="section-title text-dark" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 32px; padding-bottom: 8px; margin: 0; color: #0B1B2B;">Five ways in, one club.</div>
-              <div class="text-gray" style="font-size: 15.5px; padding-bottom: 34px; margin: 0; max-width: 500px; color: #5c656d;">Pick where you want to start. You don't need prior expertise in any of these - just the willingness to learn by doing.</div>
-
-              <!-- Domain Entries -->
-              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-top: 1px solid #DCD8CF;">
-                <tr>
-                  <td width="40" valign="top" class="text-gold" style="font-family: 'IBM Plex Mono', Courier, monospace; font-size: 13px; color: #B8863B; padding-top: 23px; padding-bottom: 20px;">FSA</td>
-                  <td valign="top" style="padding-top: 20px; padding-bottom: 20px;">
-                    <div class="text-dark" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 19px; padding-bottom: 4px; margin: 0; color: #0B1B2B;">Financial Statement Analysis</div>
-                    <div class="text-gray" style="font-size: 14.5px; margin: 0; max-width: 500px; color: #555f67;">Learn to analyze company financial statements and evaluate business performance.</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="40" valign="top" class="text-gold" style="font-family: 'IBM Plex Mono', Courier, monospace; font-size: 13px; color: #B8863B; padding-top: 23px; padding-bottom: 20px; border-top: 1px solid #DCD8CF;">CF</td>
-                  <td valign="top" style="padding-top: 20px; padding-bottom: 20px; border-top: 1px solid #DCD8CF;">
-                    <div class="text-dark" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 19px; padding-bottom: 4px; margin: 0; color: #0B1B2B;">Corporate Finance</div>
-                    <div class="text-gray" style="font-size: 14.5px; margin: 0; max-width: 500px; color: #555f67;">Explore how companies make decisions around funding, investments, valuation, and financial strategy.</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="40" valign="top" class="text-gold" style="font-family: 'IBM Plex Mono', Courier, monospace; font-size: 13px; color: #B8863B; padding-top: 23px; padding-bottom: 20px; border-top: 1px solid #DCD8CF;">IWM</td>
-                  <td valign="top" style="padding-top: 20px; padding-bottom: 20px; border-top: 1px solid #DCD8CF;">
-                    <div class="text-dark" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 19px; padding-bottom: 4px; margin: 0; color: #0B1B2B;">Investment &amp; Wealth Management</div>
-                    <div class="text-gray" style="font-size: 14.5px; margin: 0; max-width: 500px; color: #555f67;">Learn about markets, investments, portfolio management, and wealth-building strategies.</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="40" valign="top" class="text-gold" style="font-family: 'IBM Plex Mono', Courier, monospace; font-size: 13px; color: #B8863B; padding-top: 23px; padding-bottom: 20px; border-top: 1px solid #DCD8CF;">FPA</td>
-                  <td valign="top" style="padding-top: 20px; padding-bottom: 20px; border-top: 1px solid #DCD8CF;">
-                    <div class="text-dark" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 19px; padding-bottom: 4px; margin: 0; color: #0B1B2B;">Fintech Projects &amp; Analytics</div>
-                    <div class="text-gray" style="font-size: 14.5px; margin: 0; max-width: 500px; color: #555f67;">Work on practical finance projects using data, analytics, and technology.</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="40" valign="top" class="text-gold" style="font-family: 'IBM Plex Mono', Courier, monospace; font-size: 13px; color: #B8863B; padding-top: 23px; padding-bottom: 20px; border-top: 1px solid #DCD8CF; border-bottom: 1px solid #DCD8CF;">PRD</td>
-                  <td valign="top" style="padding-top: 20px; padding-bottom: 20px; border-top: 1px solid #DCD8CF; border-bottom: 1px solid #DCD8CF;">
-                    <div class="text-dark" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 19px; padding-bottom: 4px; margin: 0; color: #0B1B2B;">PR &amp; Design</div>
-                    <div class="text-gray" style="font-size: 14.5px; margin: 0; max-width: 500px; color: #555f67;">Handle the club's branding, content, social media, promotions, and visual communication.</div>
-                  </td>
-                </tr>
-              </table>
-
-              <!-- COMPACT STOCK TICKER -->
-              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-top: 24px; margin-bottom: 10px; border-top: 1px dashed #DCD8CF; border-bottom: 1px dashed #DCD8CF;">
-                <tr>
-                  <td align="left" class="market-ticker-text text-dark" style="padding: 16px 4px; font-family: 'IBM Plex Mono', Courier, monospace; font-size: 13px; color: #0B1B2B; line-height: 1.8;">
-                    <strong class="text-rust" style="color: #7A2E2E; letter-spacing: 0.04em;">MARKET INDICES</strong> &nbsp;&nbsp;&nbsp;
-                    FSA <strong class="text-green" style="color: #1B4332;">&#9650; 4.82%</strong> &nbsp;&nbsp;&nbsp;
-                    CORP FIN <strong class="text-green" style="color: #1B4332;">&#9650; 2.17%</strong> &nbsp;&nbsp;&nbsp;
-                    IWM <strong class="text-green" style="color: #1B4332;">&#9650; 0.94%</strong> &nbsp;&nbsp;&nbsp;
-                    FPA <strong class="text-green" style="color: #1B4332;">&#9650; 6.31%</strong>
-                  </td>
-                </tr>
-              </table>
-
-              <!-- 02 WHAT YOU GET -->
-              <div class="text-rust" style="font-family: 'IBM Plex Mono', Courier, monospace; font-size: 12px; letter-spacing: 0.02em; padding-bottom: 10px; padding-top: 48px; margin: 0; color: #7A2E2E;">02 - WHAT YOU GET</div>
-              <div class="section-title text-dark" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 32px; padding-bottom: 8px; margin: 0; color: #0B1B2B;">Membership, in practice.</div>
-              <div class="text-gray" style="font-size: 15.5px; padding-bottom: 34px; margin: 0; max-width: 500px; color: #5c656d;">This isn't a listening club. Here's what being part of Valiara actually looks like day to day.</div>
-
-              <!-- Perks Table -->
-              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-top: 1px solid #DCD8CF; border-left: 1px solid #DCD8CF;">
-                <tr>
-                  <td class="stack-column text-dark" width="50%" valign="top" style="border-right: 1px solid #DCD8CF; border-bottom: 1px solid #DCD8CF; padding: 18px 20px; font-size: 14.5px; text-align: left; color: #0B1B2B;">
-                    <strong class="text-green" style="color: #1B4332; font-family: 'IBM Plex Mono', Courier, monospace; margin-right: 8px;">&rsaquo;</strong>Real finance projects &amp; case studies
-                  </td>
-                  <td class="stack-column text-dark" width="50%" valign="top" style="border-right: 1px solid #DCD8CF; border-bottom: 1px solid #DCD8CF; padding: 18px 20px; font-size: 14.5px; text-align: left; color: #0B1B2B;">
-                    <strong class="text-green" style="color: #1B4332; font-family: 'IBM Plex Mono', Courier, monospace; margin-right: 8px;">&rsaquo;</strong>Sessions with industry professionals
-                  </td>
-                </tr>
-                <tr>
-                  <td class="stack-column text-dark" width="50%" valign="top" style="border-right: 1px solid #DCD8CF; border-bottom: 1px solid #DCD8CF; padding: 18px 20px; font-size: 14.5px; text-align: left; color: #0B1B2B;">
-                    <strong class="text-green" style="color: #1B4332; font-family: 'IBM Plex Mono', Courier, monospace; margin-right: 8px;">&rsaquo;</strong>Equity research &amp; portfolio simulations
-                  </td>
-                  <td class="stack-column text-dark" width="50%" valign="top" style="border-right: 1px solid #DCD8CF; border-bottom: 1px solid #DCD8CF; padding: 18px 20px; font-size: 14.5px; text-align: left; color: #0B1B2B;">
-                    <strong class="text-green" style="color: #1B4332; font-family: 'IBM Plex Mono', Courier, monospace; margin-right: 8px;">&rsaquo;</strong>A network of finance-curious peers
-                  </td>
-                </tr>
-                <tr>
-                  <td class="stack-column text-dark" width="50%" valign="top" style="border-right: 1px solid #DCD8CF; border-bottom: 1px solid #DCD8CF; padding: 18px 20px; font-size: 14.5px; text-align: left; color: #0B1B2B;">
-                    <strong class="text-green" style="color: #1B4332; font-family: 'IBM Plex Mono', Courier, monospace; margin-right: 8px;">&rsaquo;</strong>Trading simulations &amp; competitions
-                  </td>
-                  <td class="stack-column text-dark" width="50%" valign="top" style="border-right: 1px solid #DCD8CF; border-bottom: 1px solid #DCD8CF; padding: 18px 20px; font-size: 14.5px; text-align: left; color: #0B1B2B;">
-                    <strong class="text-green" style="color: #1B4332; font-family: 'IBM Plex Mono', Courier, monospace; margin-right: 8px;">&rsaquo;</strong>Access to a curated finance library
-                  </td>
-                </tr>
-                <tr>
-                  <td class="stack-column text-dark" width="50%" valign="top" style="border-right: 1px solid #DCD8CF; border-bottom: 1px solid #DCD8CF; padding: 18px 20px; font-size: 14.5px; text-align: left; color: #0B1B2B;">
-                    <strong class="text-green" style="color: #1B4332; font-family: 'IBM Plex Mono', Courier, monospace; margin-right: 8px;">&rsaquo;</strong>Workshops &amp; structured finance courses
-                  </td>
-                  <td class="stack-column text-dark" width="50%" valign="top" style="border-right: 1px solid #DCD8CF; border-bottom: 1px solid #DCD8CF; padding: 18px 20px; font-size: 14.5px; text-align: left; color: #0B1B2B;">
-                    <strong class="text-green" style="color: #1B4332; font-family: 'IBM Plex Mono', Courier, monospace; margin-right: 8px;">&rsaquo;</strong>Ownership - lead teams, run events
-                  </td>
-                </tr>
-              </table>
-
+            <td class="sym">CF</td>
+            <td class="d-name">
+              Corporate Finance
+              <div class="sub-text">Decisions around funding, capital allocation, and M&A strategy.</div>
             </td>
-            <td class="wrap-pad" width="24" style="width: 24px; min-width: 24px; line-height: 1px; font-size: 1px;">&nbsp;</td>
+            <td class="d-focus">
+              <strong>Active Protocols:</strong>
+              <ul>
+                <li><span>Discounted Cash Flow (DCF) Models</span></li>
+                <li><span>Venture & Equity Structuring</span></li>
+              </ul>
+            </td>
+            <td class="metric">▲ 2.17%</td>
           </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-
-  <!-- EVENTS STRIP -->
-  <table class="green-bg" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#1B4332" style="background-color: #1B4332; color: #F4EFE6;">
-    <tr>
-      <td align="center" style="padding: 34px 0;">
-        <table width="100%" border="0" cellpadding="0" cellspacing="0" style="max-width: 760px;">
           <tr>
-            <td class="wrap-pad" width="24" style="width: 24px; min-width: 24px; line-height: 1px; font-size: 1px;">&nbsp;</td>
-            <td align="left">
-              <div class="text-gold" style="font-family: 'IBM Plex Mono', Courier, monospace; font-size: 12px; letter-spacing: 0.02em; padding-bottom: 10px; color: #B8863B;">03 - THIS YEAR</div>
-              <div class="text-light" style="font-size: 15px; line-height: 2.2; color: #F4EFE6;">
-                Finance Case Competitions <span class="text-sep" style="color: #577364; margin: 0 8px;">|</span>
-                Portfolio Simulation Challenges <span class="text-sep" style="color: #577364; margin: 0 8px;">|</span>
-                Equity Research Comps <span class="text-sep" style="color: #577364; margin: 0 8px;">|</span>
-                Trading Events <span class="text-sep" style="color: #577364; margin: 0 8px;">|</span>
-                Finance Quizzes <span class="text-sep" style="color: #577364; margin: 0 8px;">|</span>
-                Industry Guest Sessions <span class="text-sep" style="color: #577364; margin: 0 8px;">|</span>
-                <span class="text-gold" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-style: italic; color: #B8863B;">The Financial Frontier</span>
-              </div>
+            <td class="sym">IWM</td>
+            <td class="d-name">
+              Investment & Wealth Mgt.
+              <div class="sub-text">Market mechanics, asset allocation, and wealth-building.</div>
             </td>
-            <td class="wrap-pad" width="24" style="width: 24px; min-width: 24px; line-height: 1px; font-size: 1px;">&nbsp;</td>
+            <td class="d-focus">
+              <strong>Active Protocols:</strong>
+              <ul>
+                <li><span>Probability-Driven Portfolio Theory</span></li>
+                <li><span>Risk & Statistical Arbitrage</span></li>
+              </ul>
+            </td>
+            <td class="metric">▲ 0.94%</td>
           </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-
-  <!-- CTA SECTION -->
-  <table class="dark-bg" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#0B1B2B" style="background-color: #0B1B2B; color: #F4EFE6;">
-    <tr>
-      <td align="center" style="padding: 60px 0 64px 0;">
-        <table width="100%" border="0" cellpadding="0" cellspacing="0" style="max-width: 760px;">
           <tr>
-            <td class="wrap-pad" width="24" style="width: 24px; min-width: 24px; line-height: 1px; font-size: 1px;">&nbsp;</td>
-            <td align="left">
-              <div class="section-title text-light" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 36px; padding-bottom: 14px; margin: 0; color: #F4EFE6;">You just need curiosity.</div>
-              <div class="text-mute3" style="color: #b2b3b0; font-size: 15px; max-width: 450px; padding-bottom: 30px; margin: 0; line-height: 1.55;">No finance background required. Learn, analyze, compete, and lead - with people building something real at IIIT Sri City.</div>
-
-              <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td align="center" class="gold-bg" bgcolor="#B8863B" style="background-color: #B8863B;">
-                    <a href="https://forms.gle/CaiqPAvCK3zJeZNu7" target="_blank" class="text-dark" style="display: inline-block; padding: 15px 30px; font-weight: 600; font-size: 15px; color: #0B1B2B; text-decoration: none; letter-spacing: 0.01em;">Apply to Valiara &rarr;</a>
-                  </td>
-                  <td valign="middle" style="padding-left: 20px; font-family: 'IBM Plex Mono', Courier, monospace; font-size: 13px; color: #baBAB7;" class="text-mute">
-                    APPLY BY <b class="text-light" style="color: #F4EFE6;">TUESDAY, SEP 15, 2026</b>
-                  </td>
-                </tr>
-              </table>
+            <td class="sym">FPA</td>
+            <td class="d-name">
+              Fintech Projects & Analytics
+              <div class="sub-text">Intersecting finance with data, algorithms, and technology.</div>
             </td>
-            <td class="wrap-pad" width="24" style="width: 24px; min-width: 24px; line-height: 1px; font-size: 1px;">&nbsp;</td>
+            <td class="d-focus">
+              <strong>Active Protocols:</strong>
+              <ul>
+                <li><span>Algorithmic Trading Bots</span></li>
+                <li><span>Evaluating Bias in Credit Scoring</span></li>
+              </ul>
+            </td>
+            <td class="metric">▲ 6.31%</td>
           </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+          <tr>
+            <td class="sym" style="border-bottom: none;">PRD</td>
+            <td class="d-name" style="border-bottom: none;">
+              PR & Design
+              <div class="sub-text" style="border-bottom: none;">Club branding, financial journalism, and visual communication.</div>
+            </td>
+            <td class="d-focus" style="border-bottom: none;">
+              <strong>Active Protocols:</strong>
+              <ul>
+                <li><span>Financial Data Visualization</span></li>
+                <li><span>Market Sentiment Reporting</span></li>
+              </ul>
+            </td>
+            <td class="metric" style="border-bottom: none;">▲ 1.45%</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-  <!-- FOOTER -->
-  <table class="dark-bg" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#0B1B2B" style="background-color: #0B1B2B; border-top: 1px solid #1c2b39;">
-    <tr>
-      <td align="center" style="padding: 22px 0 30px 0; font-family: 'IBM Plex Mono', Courier, monospace; font-size: 12px; color: #737a7b;" class="text-footer">
-        VALIARA &middot; FINANCE CLUB OF IIIT SRI CITY
-      </td>
-    </tr>
-  </table>
+    <section class="ops-grid">
+      <div class="ops-col">
+        <div class="col-title">Operations Log</div>
+        <ul class="dense-list">
+          <li>
+            <div class="list-content">
+              <span class="date-tag">CORE ACTIVITY</span>
+              Real finance projects & case studies
+            </div>
+          </li>
+          <li>
+            <div class="list-content">
+              <span class="date-tag">CORE ACTIVITY</span>
+              Equity research & portfolio simulations
+            </div>
+          </li>
+          <li>
+            <div class="list-content">
+              <span class="date-tag">CORE ACTIVITY</span>
+              High-pressure trading competitions
+            </div>
+          </li>
+          <li>
+            <div class="list-content">
+              <span class="date-tag">CORE ACTIVITY</span>
+              Ownership - lead teams & run events
+            </div>
+          </li>
+        </ul>
+      </div>
 
+      <div class="ops-col">
+        <div class="col-title">Event Roster</div>
+        <ul class="dense-list">
+          <li>
+            <div class="list-content">
+              <span class="date-tag">COMPETITION</span>
+              Finance Case Competitions
+            </div>
+          </li>
+          <li>
+            <div class="list-content">
+              <span class="date-tag">SIMULATION</span>
+              Portfolio Strategy Challenges
+            </div>
+          </li>
+          <li>
+            <div class="list-content">
+              <span class="date-tag">LIVE EVENT</span>
+              Trading Floor Events
+            </div>
+          </li>
+          <li>
+            <div class="list-content">
+              <span class="date-tag">ACADEMIC</span>
+              Industry Guest Sessions & Quizzes
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="cta-bar">
+      <div class="cta-info">
+        <h2>Curiosity is enough.</h2>
+        <p>No finance background required. Learn by building.</p>
+      </div>
+      <a href="https://forms.gle/CaiqPAvCK3zJeZNu7" target="_blank" class="btn-apply">Apply by [Deadline]</a>
+    </section>
+
+    <footer>
+      <span>VALIARA - FINANCE CLUB OF IIIT SRI CITY</span>
+      <span>V.2026.01 // SYSTEM STATUS: NOMINAL</span>
+    </footer>
+
+  </div>
+
+  <script>
+    const canvas = document.getElementById('marketCanvas');
+    const wrapper = document.getElementById('canvasWrap');
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('statusText');
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() {
+      const rect = wrapper.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height; 
+    }
+
+    let candles = [];
+    const candleWidth = 10;
+    const spacing = 24; 
+    let basePrice = 1250.00;
+    let offset = 0;
+    let mouseX = -100;
+    let mouseY = -100;
+
+    const colorUp = '#2a5a3b'; 
+    const colorDown = '#8b3a3a'; 
+
+    let displayPercent = 0.00; // Track smoothed state for mathematical dampening
+
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      mouseX = -100;
+      mouseY = -100;
+    });
+
+    function generateHistoricalCandle(xPos, openPrice) {
+      let isUp = Math.random() > 0.45; 
+      const bodySize = Math.random() * 18 + 4;
+      const wickSize = Math.random() * 14 + 2;
+      
+      let close = isUp ? (openPrice + bodySize) : (openPrice - bodySize);
+      
+      if (close < basePrice - 35) { close = openPrice + bodySize; isUp = true; }
+      if (close > basePrice + 35) { close = openPrice - bodySize; isUp = false; }
+
+      const high = Math.max(openPrice, close) + wickSize;
+      const low = Math.min(openPrice, close) - wickSize;
+
+      return { x: xPos, open: openPrice, close, high, low, color: isUp ? colorUp : colorDown };
+    }
+
+    function initChart() {
+      resizeCanvas();
+      candles = [];
+      let currentPrice = basePrice;
+      const maxCandles = Math.ceil(canvas.width / spacing) + 3;
+      
+      for (let i = 0; i < maxCandles - 1; i++) {
+        let newCandle = generateHistoricalCandle(i * spacing, currentPrice);
+        candles.push(newCandle);
+        currentPrice = newCandle.close;
+      }
+      
+      candles.push({
+        x: (maxCandles - 1) * spacing,
+        open: currentPrice,
+        close: currentPrice,
+        high: currentPrice,
+        low: currentPrice,
+        color: colorUp
+      });
+    }
+
+    let liveTargetPrice = basePrice;
+    
+    function updateLivePulse() {
+      const liveCandle = candles[candles.length - 1];
+      
+      if (Math.random() < 0.03) { 
+        const volatility = (Math.random() - 0.5) * 60; 
+        liveTargetPrice = liveCandle.open + volatility;
+      }
+
+      liveCandle.close += (liveTargetPrice - liveCandle.close) * 0.04;
+      
+      if (liveCandle.close >= liveCandle.high) liveCandle.high = liveCandle.close + (Math.random() * 4);
+      if (liveCandle.close <= liveCandle.low) liveCandle.low = liveCandle.close - (Math.random() * 4);
+      
+      liveCandle.color = liveCandle.close >= liveCandle.open ? colorUp : colorDown;
+
+      if (candles.length >= 2) {
+        const c1 = candles[candles.length - 1];
+        const c2 = candles[candles.length - 2];
+        
+        const movement1 = (c1.close - c1.open) / c1.open;
+        const movement2 = (c2.close - c2.open) / c2.open;
+        const targetPercent = ((movement1 + movement2) / 2) * 100;
+
+        const alpha = 0.04; 
+        displayPercent += alpha * (targetPercent - displayPercent);
+
+        const isPositive = displayPercent >= 0;
+        
+        if (statusIndicator) {
+          statusIndicator.textContent = isPositive ? '🟢' : '🔴';
+        }
+        
+        if (statusText) {
+          const sign = isPositive ? '+' : '';
+          statusText.textContent = `${sign}${displayPercent.toFixed(2)}%`;
+          statusText.style.color = isPositive ? '#5bc57a' : '#8b3a3a';
+        }
+      }
+    }
+
+    const scrollSpeed = 0.025; 
+
+    function drawChart() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      const rightPadding = 65; 
+      const bottomPadding = 25; 
+      const chartWidth = canvas.width - rightPadding;
+      const chartHeight = canvas.height - bottomPadding;
+
+      const minPrice = basePrice - 45;
+      const maxPrice = basePrice + 45;
+      
+      function priceToY(price) { return chartHeight - ((price - minPrice) / (maxPrice - minPrice)) * chartHeight; }
+      function yToPrice(y) { return maxPrice - (y / chartHeight) * (maxPrice - minPrice); }
+
+      ctx.strokeStyle = 'rgba(17, 17, 17, 0.08)';
+      ctx.lineWidth = 1;
+      for (let p = Math.ceil(minPrice / 10) * 10; p <= maxPrice; p += 10) {
+        const y = priceToY(p);
+        if (y >= 0 && y <= chartHeight) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(chartWidth, y);
+          ctx.stroke();
+        }
+      }
+
+      offset += scrollSpeed; 
+      if (offset >= spacing) {
+        offset -= spacing; 
+        candles.shift();
+        candles.forEach((c, idx) => c.x = idx * spacing);
+        
+        const lastClose = candles[candles.length - 1].close;
+        candles.push({
+          x: (candles.length) * spacing,
+          open: lastClose,
+          close: lastClose,
+          high: lastClose,
+          low: lastClose,
+          color: colorUp
+        });
+        liveTargetPrice = lastClose;
+      }
+
+      updateLivePulse();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, 0, chartWidth, chartHeight);
+      ctx.clip(); 
+
+      let maPoints = [];
+      candles.forEach((candle) => {
+        const drawX = candle.x - offset;
+        if (drawX < -30 || drawX > chartWidth + 30) return;
+
+        const yOpen = priceToY(candle.open);
+        const yClose = priceToY(candle.close);
+        const yHigh = priceToY(candle.high);
+        const yLow = priceToY(candle.low);
+
+        const maVal = (candle.open + candle.close) / 2;
+        maPoints.push({ x: drawX + candleWidth / 2, y: priceToY(maVal) });
+
+        ctx.strokeStyle = candle.color;
+        ctx.fillStyle = candle.color;
+        ctx.lineWidth = 1.5;
+
+        ctx.beginPath();
+        ctx.moveTo(drawX + candleWidth / 2, yHigh);
+        ctx.lineTo(drawX + candleWidth / 2, yLow);
+        ctx.stroke();
+
+        const topY = Math.min(yOpen, yClose);
+        const bodyHeight = Math.max(Math.abs(yOpen - yClose), 2);
+        
+        if (candle.color === colorUp) {
+          ctx.fillRect(drawX, topY, candleWidth, bodyHeight);
+        } else {
+          ctx.strokeRect(drawX, topY, candleWidth, bodyHeight);
+          ctx.fillStyle = '#e4decb';
+          ctx.fillRect(drawX + 1, topY + 1, candleWidth - 2, bodyHeight - 2);
+        }
+      });
+
+      if (maPoints.length > 1) {
+        ctx.strokeStyle = 'var(--highlight)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(maPoints[0].x, maPoints[0].y);
+        for (let i = 1; i < maPoints.length; i++) {
+          ctx.lineTo(maPoints[i].x, maPoints[i].y);
+        }
+        ctx.stroke();
+      }
+
+      if (mouseX > 0 && mouseX < chartWidth && mouseY > 0 && mouseY < chartHeight) {
+        ctx.strokeStyle = 'rgba(184, 134, 59, 0.9)';
+        ctx.setLineDash([3, 3]);
+        ctx.lineWidth = 1;
+        
+        ctx.beginPath();
+        ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, chartHeight);
+        ctx.moveTo(0, mouseY); ctx.lineTo(chartWidth, mouseY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      ctx.restore(); 
+      
+      ctx.fillStyle = '#111';
+      ctx.font = '11px "IBM Plex Mono", monospace';
+      for (let p = Math.ceil(minPrice / 10) * 10; p <= maxPrice; p += 10) {
+        const y = priceToY(p);
+        if (y >= 0 && y <= chartHeight) {
+          ctx.fillText(p.toFixed(2), chartWidth + 8, y + 4);
+        }
+      }
+
+      ctx.fillStyle = '#555';
+      let startTime = 9.5; 
+      for (let x = 40; x < chartWidth; x += 100) {
+        let hours = Math.floor(startTime);
+        let mins = Math.floor((startTime - hours) * 60);
+        let timeStr = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+        ctx.fillText(timeStr, x - 15, canvas.height - 8);
+        startTime += 0.5;
+      }
+
+      if (mouseX > 0 && mouseX < chartWidth && mouseY > 0 && mouseY < chartHeight) {
+        const hoverPrice = yToPrice(mouseY);
+        ctx.fillStyle = 'var(--ink)';
+        ctx.fillRect(chartWidth, mouseY - 12, rightPadding, 24);
+        ctx.fillStyle = '#5bc57a';
+        ctx.fillText(hoverPrice.toFixed(2), chartWidth + 8, mouseY + 4);
+      }
+
+      requestAnimationFrame(drawChart);
+    }
+
+    window.addEventListener('load', () => {
+      initChart();
+      requestAnimationFrame(drawChart);
+    });
+
+    window.addEventListener('resize', initChart);
+  </script>
 </body>
 </html>
