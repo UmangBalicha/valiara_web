@@ -53,6 +53,36 @@
     a { color: inherit; text-decoration: none; }
 
     /* =========================================
+       TOP APPLY BAR (NEW)
+       ========================================= */
+    .top-apply-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--highlight);
+      border-bottom: var(--border-thick);
+      padding: 10px 16px;
+    }
+
+    .top-apply-bar a {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      background: var(--paper);
+      border: var(--border-thin);
+      padding: 8px 20px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .top-apply-bar a:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    /* =========================================
        HEADER & TICKER
        ========================================= */
     .top-header {
@@ -105,7 +135,7 @@
     }
     .marquee span { display: inline-flex; align-items: center; gap: 8px; margin-right: 32px; color: var(--paper); }
     .t-up { color: #5bc57a; } 
-    .t-alert { color: var(--highlight); animation: blink 1s step-end infinite; }
+    .t-alert { color: var(--paper); animation: blink 1s step-end infinite; }
 
     @keyframes blink { 50% { opacity: 0; } }
     @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
@@ -114,12 +144,14 @@
        HERO & GRAPH GRID
        ========================================= */
     .hero-grid {
-      display: grid;
-      grid-template-columns: 42% 58%;
+      display: flex;
+      flex-wrap: wrap;
       border-bottom: var(--border-thick);
     }
 
     .hero-text-block {
+      flex: 1 1 42%;
+      min-width: 320px;
       padding: 60px 40px;
       border-right: var(--border-thick);
       display: flex;
@@ -161,7 +193,11 @@
     .chart-container {
       position: relative;
       background: var(--paper-dim);
+      flex: 1 1 58%;
+      min-width: 320px;
       min-height: 420px;
+      align-self: stretch;
+      overflow: hidden;
     }
 
     .chart-header {
@@ -194,7 +230,8 @@
 
     canvas {
       display: block;
-      cursor: crosshair; 
+      cursor: crosshair;
+      max-width: 100%;
     }
 
     /* =========================================
@@ -211,6 +248,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+
+    .watchlist-section {
+      border-bottom: var(--border-thick);
     }
 
     .data-table {
@@ -235,14 +276,12 @@
 
     .data-table tr {
       border-bottom: var(--border-thin);
-      transition: background-color 0.15s ease, color 0.15s ease;
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
     }
+    .data-table tr:last-child { border-bottom: none; }
 
-    .data-table tr:hover { background-color: var(--ink); color: var(--paper); }
-    .data-table tr:hover .sub-text { color: #A8A39B; }
-    .data-table tr:hover .sym { color: var(--highlight); border-color: var(--ink-light); }
-    .data-table tr:hover .d-focus { border-color: var(--ink-light); }
-    .data-table tr:hover .metric { color: #5bc57a; }
+    .data-table tr:hover { background-color: rgba(17, 17, 17, 0.035); box-shadow: inset 3px 0 0 var(--highlight); }
+    .data-table tr:hover .sym { color: var(--accent-rust); }
 
     .data-table td { padding: 24px 32px; vertical-align: top; }
 
@@ -252,7 +291,7 @@
       font-weight: 700;
       width: 10%;
       border-right: var(--border-thin);
-      transition: border-color 0.15s ease;
+      transition: color 0.15s ease;
       vertical-align: middle !important;
     }
 
@@ -280,15 +319,16 @@
     .ops-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      padding: 24px;
       border-bottom: var(--border-thick);
     }
 
     .ops-col {
-      border-right: var(--border-thick);
+      border: var(--border-thick);
       display: flex;
       flex-direction: column;
     }
-    .ops-col:last-child { border-right: none; }
 
     .col-title {
       font-family: var(--font-serif);
@@ -398,32 +438,109 @@
     @media (max-width: 1024px) {
       .hero-grid { grid-template-columns: 1fr; }
       .hero-text-block { border-right: none; border-bottom: var(--border-thick); padding: 48px 32px; }
-      .chart-container { height: 400px; }
+      .chart-container { height: 400px; min-height: 400px; max-height: 400px; }
       .ops-grid { grid-template-columns: 1fr; }
-      .ops-col { border-right: none; border-bottom: var(--border-thick); }
-      .ops-col:last-child { border-bottom: none; }
-      .d-focus { display: none; }
+
+      /* Domain table becomes a stacked card layout instead of hiding data */
+      .data-table thead { display: none; }
+      .data-table, .data-table tbody { display: block; width: 100%; }
+      .data-table tr {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas:
+          "sym name metric"
+          "focus focus focus";
+        column-gap: 16px;
+        align-items: start;
+        border-bottom: var(--border-thick);
+        padding: 20px 24px;
+      }
+      .data-table tr:last-child { border-bottom: none; }
+      .data-table tr:hover { box-shadow: inset 4px 0 0 var(--highlight); }
+
+      .data-table td { padding: 0; border: none !important; }
+
+      .sym {
+        grid-area: sym;
+        border-right: none;
+        padding-right: 0;
+        font-size: 20px;
+        width: auto;
+        align-self: center;
+      }
+      .d-name {
+        grid-area: name;
+        width: auto;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+      }
+      .metric {
+        grid-area: metric;
+        justify-self: end;
+        text-align: right;
+        width: auto;
+        font-size: 15px;
+        align-self: center;
+        white-space: nowrap;
+      }
+      .d-focus {
+        grid-area: focus;
+        display: block;
+        border-left: none;
+        border-top: var(--border-thin);
+        margin-top: 16px;
+        padding-top: 14px;
+        width: auto;
+      }
     }
 
     @media (max-width: 600px) {
       .top-header { flex-direction: column; align-items: stretch; }
       .brand-block { border-right: none; border-bottom: 1px solid var(--paper); justify-content: center; padding: 24px; }
       .live-ticker { padding: 16px 0; }
-      .data-table th { display: none; }
-      .data-table td { display: block; width: 100%; padding: 24px; text-align: left; }
-      .sym { border-right: none; border-bottom: var(--border-thin); background: rgba(0,0,0,0.03); width: 100%; }
-      .metric { border-left: none; border-top: var(--border-thin); text-align: left; width: 100%; }
-      .d-name { width: 100%; }
+      .top-apply-bar a { font-size: 12px; padding: 8px 14px; text-align: center; }
+
+      .data-table tr {
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas:
+          "sym name metric"
+          "focus focus focus";
+        padding: 18px 20px;
+        column-gap: 10px;
+      }
+      .sym { font-size: 17px; }
+      .d-name { font-size: 18px; }
+      .d-name .sub-text { font-size: 13px; }
+      .metric { font-size: 13px; }
+      .d-focus { font-size: 13px; margin-top: 12px; padding-top: 12px; }
+      .d-focus ul { margin-top: 6px; }
+
       .cta-bar { flex-direction: column; }
-      .btn-apply { padding: 32px; border-left: none; border-top: 3px solid var(--paper); }
+      .btn-apply { padding: 32px; border-left: none; border-top: 3px solid var(--paper); font-size: 20px; }
       footer { flex-direction: column; text-align: center; gap: 12px; }
+    }
+
+    @media (max-width: 420px) {
+      .data-table tr {
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+          "sym metric"
+          "name name"
+          "focus focus";
+        row-gap: 8px;
+      }
+      .metric { justify-self: end; align-self: center; }
+      .d-name { margin-top: 2px; }
     }
   </style>
 </head>
 <body>
 
   <div class="ledger-container">
-    
+
     <header class="top-header">
       <div class="brand-block">
         <img src="https://github.com/user-attachments/assets/9aea69f2-dd7b-41f8-89c9-ab757e1cad3f" alt="Valiara Logo">
@@ -456,6 +573,10 @@
         </div>
       </div>
     </header>
+
+    <div class="top-apply-bar">
+      <a href="https://forms.gle/CaiqPAvCK3zJeZNu7" target="_blank">Apply Now — Deadline Tue, 15 Sept</a>
+    </div>
 
     <section class="hero-grid">
       <div class="hero-text-block">
@@ -557,19 +678,19 @@
             <td class="metric">▲ 6.31%</td>
           </tr>
           <tr>
-            <td class="sym" style="border-bottom: none;">PRD</td>
-            <td class="d-name" style="border-bottom: none;">
+            <td class="sym">PRD</td>
+            <td class="d-name">
               PR & Design
-              <div class="sub-text" style="border-bottom: none;">Club branding, financial journalism, and visual communication.</div>
+              <div class="sub-text">Club branding, financial journalism, and visual communication.</div>
             </td>
-            <td class="d-focus" style="border-bottom: none;">
+            <td class="d-focus">
               <strong>Active Protocols:</strong>
               <ul>
                 <li><span>Financial Data Visualization</span></li>
                 <li><span>Market Sentiment Reporting</span></li>
               </ul>
             </td>
-            <td class="metric" style="border-bottom: none;">▲ 1.45%</td>
+            <td class="metric">▲ 1.45%</td>
           </tr>
         </tbody>
       </table>
@@ -642,7 +763,7 @@
         <h2>Curiosity is enough.</h2>
         <p>No finance background required. Learn by building.</p>
       </div>
-      <a href="https://forms.gle/CaiqPAvCK3zJeZNu7" target="_blank" class="btn-apply">Apply by [Deadline]</a>
+      <a href="https://forms.gle/CaiqPAvCK3zJeZNu7" target="_blank" class="btn-apply">Apply by Tue, 15 Sept</a>
     </section>
 
     <footer>
@@ -690,7 +811,7 @@
     });
 
     function generateHistoricalCandle(xPos, openPrice) {
-      let isUp = Math.random() > 0.45; 
+      let isUp = Math.random() > 0.2; 
       const bodySize = Math.random() * 18 + 4;
       const wickSize = Math.random() * 14 + 2;
       
@@ -733,7 +854,13 @@
       const liveCandle = candles[candles.length - 1];
       
       if (Math.random() < 0.03) { 
-        const volatility = (Math.random() - 0.5) * 60; 
+        // Mean-reversion: pull price back toward basePrice so it oscillates
+        // in a range instead of compounding upward (or downward) forever.
+        const distanceFromBase = liveCandle.open - basePrice;
+        const reversionPull = -distanceFromBase * 0.35;
+        const bullishBias = 6; // keeps the ~80/20 green bias without unbounded drift
+        const noise = (Math.random() - 0.5) * 50;
+        const volatility = reversionPull + bullishBias + noise;
         liveTargetPrice = liveCandle.open + volatility;
       }
 
@@ -770,6 +897,8 @@
     }
 
     const scrollSpeed = 0.025; 
+    let smoothMin = NaN;
+    let smoothMax = NaN;
 
     function drawChart() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -778,24 +907,6 @@
       const bottomPadding = 25; 
       const chartWidth = canvas.width - rightPadding;
       const chartHeight = canvas.height - bottomPadding;
-
-      const minPrice = basePrice - 45;
-      const maxPrice = basePrice + 45;
-      
-      function priceToY(price) { return chartHeight - ((price - minPrice) / (maxPrice - minPrice)) * chartHeight; }
-      function yToPrice(y) { return maxPrice - (y / chartHeight) * (maxPrice - minPrice); }
-
-      ctx.strokeStyle = 'rgba(17, 17, 17, 0.08)';
-      ctx.lineWidth = 1;
-      for (let p = Math.ceil(minPrice / 10) * 10; p <= maxPrice; p += 10) {
-        const y = priceToY(p);
-        if (y >= 0 && y <= chartHeight) {
-          ctx.beginPath();
-          ctx.moveTo(0, y);
-          ctx.lineTo(chartWidth, y);
-          ctx.stroke();
-        }
-      }
 
       offset += scrollSpeed; 
       if (offset >= spacing) {
@@ -817,6 +928,47 @@
 
       updateLivePulse();
 
+      // Auto-scale the visible price range to the candles actually being drawn
+      // this frame, so price drift over time can never push candles outside
+      // the chart's drawable area.
+      let visibleMin = Infinity;
+      let visibleMax = -Infinity;
+      candles.forEach((candle) => {
+        const drawX = candle.x - offset;
+        if (drawX < -30 || drawX > chartWidth + 30) return;
+        if (candle.low < visibleMin) visibleMin = candle.low;
+        if (candle.high > visibleMax) visibleMax = candle.high;
+      });
+      if (!isFinite(visibleMin) || !isFinite(visibleMax)) {
+        visibleMin = basePrice - 45;
+        visibleMax = basePrice + 45;
+      }
+      const rangePadding = Math.max((visibleMax - visibleMin) * 0.15, 5);
+      const targetMin = visibleMin - rangePadding;
+      const targetMax = visibleMax + rangePadding;
+      if (!isFinite(smoothMin)) { smoothMin = targetMin; smoothMax = targetMax; }
+      smoothMin += (targetMin - smoothMin) * 0.1;
+      smoothMax += (targetMax - smoothMax) * 0.1;
+      // Never let the smoothed window lag behind the actual data - clamp hard
+      // so a candle can never end up outside the drawable area even mid-transition.
+      const minPrice = Math.min(smoothMin, visibleMin - 2);
+      const maxPrice = Math.max(smoothMax, visibleMax + 2);
+
+      function priceToY(price) { return chartHeight - ((price - minPrice) / (maxPrice - minPrice)) * chartHeight; }
+      function yToPrice(y) { return maxPrice - (y / chartHeight) * (maxPrice - minPrice); }
+
+      ctx.strokeStyle = 'rgba(17, 17, 17, 0.08)';
+      ctx.lineWidth = 1;
+      for (let p = Math.ceil(minPrice / 10) * 10; p <= maxPrice; p += 10) {
+        const y = priceToY(p);
+        if (y >= 0 && y <= chartHeight) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(chartWidth, y);
+          ctx.stroke();
+        }
+      }
+
       ctx.save();
       ctx.beginPath();
       ctx.rect(0, 0, chartWidth, chartHeight);
@@ -835,25 +987,26 @@
         const maVal = (candle.open + candle.close) / 2;
         maPoints.push({ x: drawX + candleWidth / 2, y: priceToY(maVal) });
 
-        ctx.strokeStyle = candle.color;
-        ctx.fillStyle = candle.color;
-        ctx.lineWidth = 1.5;
+        const centerX = drawX + candleWidth / 2;
+        const topY = Math.min(yOpen, yClose);
+        const bodyHeight = Math.max(Math.abs(yOpen - yClose), 1.5);
 
+        // Wick: thin center line spanning high to low
+        ctx.strokeStyle = candle.color;
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.moveTo(drawX + candleWidth / 2, yHigh);
-        ctx.lineTo(drawX + candleWidth / 2, yLow);
+        ctx.moveTo(centerX, yHigh);
+        ctx.lineTo(centerX, yLow);
         ctx.stroke();
 
-        const topY = Math.min(yOpen, yClose);
-        const bodyHeight = Math.max(Math.abs(yOpen - yClose), 2);
-        
-        if (candle.color === colorUp) {
-          ctx.fillRect(drawX, topY, candleWidth, bodyHeight);
-        } else {
-          ctx.strokeRect(drawX, topY, candleWidth, bodyHeight);
-          ctx.fillStyle = '#e4decb';
-          ctx.fillRect(drawX + 1, topY + 1, candleWidth - 2, bodyHeight - 2);
-        }
+        // Body: solid fill for both up and down candles (realistic candlestick look)
+        ctx.fillStyle = candle.color;
+        ctx.fillRect(drawX, topY, candleWidth, bodyHeight);
+
+        // Subtle border for definition
+        ctx.strokeStyle = candle.color;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(drawX, topY, candleWidth, bodyHeight);
       });
 
       if (maPoints.length > 1) {
